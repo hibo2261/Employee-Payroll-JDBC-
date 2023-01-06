@@ -1,31 +1,36 @@
 package com.bridgelabz;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.util.Enumeration;
+
 
 public class DatabaseConnection {
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-
-
-        String url = "jdbc:mysql://localhost/payroll";
+    static Connection connection;
+    /**
+     * Method to make connection with payroll_service database
+     */
+    public static void connectToDatabase() {
+        String jdbcURL = "jdbc:mysql://localhost:3306/payroll_services";
         String username = "root";
         String password = "admin";
-
-
-        Connection connection;
-
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            System.out.println("DRIVER LOADING DONE.");
-
+            System.out.println("\n Connecting to database : " + jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, username, password);
+            System.out.println(" Connection is Successful : " + connection);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-        try {
-            connection = DriverManager.getConnection(url, username, password);
-            System.out.println("connection is sucessful..." + connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    }
+    /**
+     *  Method to get list of drivers installed for JDBC connections
+     */
+    public static void driversList() {
+        Enumeration<Driver> driverList = DriverManager.getDrivers();
+        System.out.println("\n List of drivers :");
+        while ((driverList.hasMoreElements())) {
+            Driver driver = (Driver) driverList.nextElement();
+            System.out.println(" " + driver.getClass().getName());
         }
     }
 }
