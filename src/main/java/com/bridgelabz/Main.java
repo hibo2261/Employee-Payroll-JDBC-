@@ -7,6 +7,9 @@ public class Main {
         try {
             EmployeePayrollService employeePayrollService = new EmployeePayrollService();
             employeePayrollService.readEmployeePayrollData();
+            employeePayrollService.updateBaseSalary("Nupur",34000);
+            employeePayrollService.readEmployeePayrollData();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
